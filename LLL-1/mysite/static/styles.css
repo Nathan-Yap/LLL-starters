@@ -1,0 +1,21 @@
+.node {
+    width: 100px;
+    border: 5px solid burlywood;
+    padding: 10px;
+    margin: 10px;
+    background-color: aliceblue;
+    position: absolute;
+}
+.left-panel
+{        
+    background-color:#ccc;
+    width:10%;
+    height:100px;
+    float:left;            
+}
+.right-panel
+{        
+    width:80%;
+    height:100px;
+    float:left;
+}

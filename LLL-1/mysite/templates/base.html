@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="{% static 'function.js' %}"></script>
+    <script>
+        var SAVE_URL = '{% url "save" %}';
+        var CONNECT_URL = '{% url "connect" %}';
+        var DELETE_URL = '{% url "delete" %}';
+        var CSRF_TOKEN = '{{ csrf_token }}';
+    </script>
+    <title>Flowchart</title>
+</head>
+<body bgcolor="beige">
+    {% block content %}
+
+    {% endblock %}
+</body>
+</html>

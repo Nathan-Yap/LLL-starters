@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="left-panel">
+    {% csrf_token %}
+    <h1>Flowchart Maker</h1>
+    <form action="chart" method="post">
+        
+        {% csrf_token %}
+        Enter Node Text: <input type="text" name="node_text"><br>
+        <input value="Create" onclick="uploadPositions()" type="Submit">
+    </form>
+    
+    <button onclick="uploadPositions()">Save</button>
+</div>
+
+<div class="right-panel">
+
+    <!-- Load in nodes -->
+    {% for node in nodes %}
+    
+    <div class="node" id="{{node.name}}" style="top:{{node.y_pos}}px; left:{{node.x_pos}}px; border-radius:{{node.shape}}px">
+        <h4>{{node.text}}</h4>
+        <button id="c{{node.name}}" onclick="clickConnect(this)">+</button>
+        <button id="d{{node.name}}" onclick="clickDelete(this)">X</button>
+    </div>
+    
+    {% endfor %}
+
+    <!-- Load in lines -->
+    <svg width="1300px" height="1300px" class="line-svg">
+        
+        {% for connection in connections %}
+        
+        <line stroke="black" stroke-width="{{connection.thickness}}" class="connection" id="{{connection.name}}"/>
+        
+        {% endfor %}
+        
+    </svg>
+</div>
+
+{% endblock %}

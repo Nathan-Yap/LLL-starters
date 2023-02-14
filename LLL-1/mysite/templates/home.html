@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Flowchart Maker {{name}}</h1>
+
+<form action="chart" method="post">
+
+    {% csrf_token %}
+    Enter node: <input type="text" name="node"><br>
+    <input type="Submit">
+</form>
+
+
+{% endblock %}
