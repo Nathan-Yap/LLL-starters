@@ -16,6 +16,7 @@
 </style>
 <body>
     <h3>Transcript:</h3>
+    <p>Please visit <span id='link'></span> to allow this app to access your microphone</p>
     <div id="words" contenteditable style->
         <% data.slice().reverse().forEach(element => { %>
             <p><%= element %></p>
@@ -26,7 +27,9 @@
     <script>
         setTimeout(function(){
             window.location.reload(1);
-         }, 2000);
+         }, 1000);
+
+         document.getElementById('link').innerHTML = document.location.href
     </script>
 </body>
   

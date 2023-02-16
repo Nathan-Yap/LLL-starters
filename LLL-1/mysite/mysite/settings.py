@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'docs',
-    'channels',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-ASGI_APPLICATION = 'websocket.asgi.application' # websocket my application name
 
 CHANNEL_LAYERS = {
     "default": {
