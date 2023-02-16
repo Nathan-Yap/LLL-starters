@@ -1,3 +1,20 @@
+# Notes from Nathan
+
+## I used a preexisting zoom app template for this project please check below for where to look for my work.
+* In server/views you can find the html templates I used. test.html is client side, while zoom.html is the zoom rendering.
+* In server/routes you can find index.js, which is where all my backend is located. Which only consists of two functions.
+* Please note that for this project my initial approach was to use an RTMP server, but was unable to due to a Zoom Pro requirement for streaming. Work for this is not located in this repo.
+
+
+
+
+
+
+
+
+
+
+
 # Zoom Apps JavaScript Sample
 
 This Zoom App Sample uses Node.js + Express to build a simple Hello World Zoom App.
