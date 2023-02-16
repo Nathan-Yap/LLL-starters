@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content=
+        "width=device-width, initial-scale=1.0">
+  
+    <title>Speech to Text</title>
+</head>
+<style>
+    .words {
+        overflow:scroll;
+        height: 500px;
+    }
+</style>
+<body>
+    <h3>Transcript:</h3>
+    <div id="words" contenteditable style->
+        <% data.slice().reverse().forEach(element => { %>
+            <p><%= element %></p>
+          
+            <% }) %>
+    </div>
+  
+    <script>
+        setTimeout(function(){
+            window.location.reload(1);
+         }, 2000);
+    </script>
+</body>
+  
+</html>

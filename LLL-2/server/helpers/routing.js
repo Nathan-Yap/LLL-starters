@@ -24,6 +24,7 @@ export function sanitize(req) {
 export function handleError(e) {
     let status = e.status || e.code;
     let data = e.message;
+    console.log(e.message);
 
     if (e.response) {
         status = e.response.status;

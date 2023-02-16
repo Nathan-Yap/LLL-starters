@@ -2,7 +2,7 @@ import express from 'express';
 import { query } from 'express-validator';
 
 import { handleError, sanitize } from '../helpers/routing.js';
-import { getDeeplink, getToken, getMeeting } from '../helpers/zoom-api.js';
+import { getDeeplink, getToken } from '../helpers/zoom-api.js';
 
 import session from '../session.js';
 
@@ -48,8 +48,6 @@ router.get('/', session, validateQuery, async (req, res, next) => {
 
         // fetch deeplink from Zoom API
         const deeplink = await getDeeplink(accessToken);
-        const record = await getMeeting(4268284559, accessToken)
-        console.log(record)
         // redirect the user to the Zoom Client
         res.redirect(deeplink);
     } catch (e) {

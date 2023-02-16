@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content=
+        "width=device-width, initial-scale=1.0">
+  
+    <title>Speech to Text</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+  
+<body>
+    <h3>Transcript:</h3>
+    <div class="words" contenteditable>
+        <% data.slice().reverse().forEach(element => { %>
+            <p><%= element %></p>
+          
+            <% }) %>
+        <p id="p"></p>
+        <input type="button" value="Send test" onclick="test()"/>
+    </div>
+  
+    <script>
+        /*setTimeout(function(){
+            window.location.reload(1);
+         }, 5000);*/
+
+        function sendTime(){
+            var d = Date.now();
+            let dat_obj = new Date(d);
+            return dat_obj.toLocaleString(); 
+        }
+
+        function test(){
+            sendPost("Test")
+        }
+
+        function sendPost(transcript) {
+            console.log("sending: " + transcript)
+            $.ajax({
+                type: 'POST',
+                url: '/',
+                data: {text: (sendTime() + ": " + transcript)},
+            });
+        }
+        var speech = true;
+        window.SpeechRecognition = window.SpeechRecognition
+                        || window.webkitSpeechRecognition;
+        
+        const recognition = new SpeechRecognition();
+        // recognition.interimResults = true;
+        const words = document.querySelector('.words');
+        words.appendChild(p);
+        
+        
+        recognition.addEventListener('result', e => {
+            const transcript = Array.from(e.results)
+            .map(result => result[0])
+            .map(result => result.transcript)
+            .join('')
+            
+            sendPost(transcript)
+            console.log(transcript);
+        });
+        
+        if (speech == true) {
+            recognition.start();
+            console.log("Speech started")
+            recognition.addEventListener('end', recognition.start);
+        }
+    </script>
+</body>
+  
+</html>

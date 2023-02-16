@@ -135,11 +135,7 @@ export async function refreshToken(token) {
  * @param {string} token Zoom App Access Token
  */
 export function getZoomUser(uid, token) {
-    return apiRequest('GET', `/users/${uid}`, token);
-}
-
-export function getMeeting(mid, token) {
-    return apiRequest('GET', `/meetings/${mid}/recordings`, token);
+    return apiRequest('GET', `/users/me/${uid}`, token);
 }
 
 /**

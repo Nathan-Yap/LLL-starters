@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby</title>
+</head>
+<body>
+    <h1>Lets take notes together</h1>
+
+    
+    <label>Current highlighted text:</label><br>
+    <input type="text" readonly id="highlight"><br>
+    <form id='form'>
+        <label>Note:</label><br>
+        <input type="text" name="message"/> 
+    </form>
+    
+    <p id="body_text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse culpa atque beatae numquam itaque aspernatur reiciendis soluta saepe, necessitatibus, velit odit, sit facere. Sunt corrupti accusamus facilis eum quibusdam cumque!</p>
+
+    <br>
+    <h4>Notes</h4>
+    <div id="messages">
+    </div>
+
+    <style>
+        .highlight {background-color: yellow;}
+        .note {border-style: dashed; background-color: antiquewhite;}
+        .note_text {padding: 10px}
+    </style>
+
+    <script type="text/javascript">
+        let url = `ws://${window.location.host}/ws/socket-server`
+        let highlight_queue = []
+        const chatSocket = new WebSocket(url)
+
+        chatSocket.onmessage = function(e) {
+            let data = JSON.parse(e.data)
+            console.log('Data:', data)
+            
+            if(data.type === 'note') {
+                let messages = document.getElementById('messages')
+                messages.insertAdjacentHTML('beforeend', `
+                    <div class="note"> <p class="note_text">${data.message}</p></div>
+                `)
+            }
+            if(data.type === 'highlight') {
+                hightlight(data.start,data.end)
+            }
+        }
+
+        let form = document.getElementById('form')
+        form.addEventListener('submit', (e) => {
+            e.preventDefault()
+            if (highlight_queue.length > 0) {
+                console.log("Uploading")
+                let message = e.target.message.value + " =====>" + document.getElementById("highlight").value
+                chatSocket.send(JSON.stringify({
+                    'type': 'note',
+                    'message': message
+                }))
+                if (highlight_queue[0] >= 0 && highlight_queue[1] >= 0){
+                    chatSocket.send(JSON.stringify({
+                        'type': 'highlight',
+                        'start': highlight_queue[0],
+                        'end': highlight_queue[1]
+                    }))
+                }
+                highlight_queue = []
+            }
+            form.reset()
+        })
+        
+        document.getElementById('body_text').addEventListener('mouseup', (event) => {
+            var txt = this.innerText;
+            var selection = window.getSelection();
+            var start = selection.anchorOffset;
+            var end = selection.focusOffset;            
+            highlight_queue = [start, end]
+            document.getElementById("highlight").value = "\"" + selection.toString() + "\": " + highlight_queue[0] + " - " + highlight_queue[1];
+        });
+
+        function hightlight(start, end) {
+            // This doesn't work if you highlight behind something.
+            var inputText = document.getElementById("body_text");
+            var innerHTML = inputText.innerHTML;           
+            var offset = 0;
+            var count = 0;
+            var index = 0;
+            var index_e = 0;
+            while (index != -1) {
+                index = innerHTML.indexOf('<', count)
+                if (index != -1) {
+                    index_e = innerHTML.indexOf(">", index);
+                    offset = offset + (index_e-index) + 1
+                    count = index_e+1
+                    offset = index_e + 1
+                }
+            }
+            if ((end-start) > 0) { 
+                // Indexes are mismatched, quick hack fix
+                start = start+offset
+                end = end+offset
+                innerHTML = innerHTML.substring(0,start) + "<span class='highlight'>" + innerHTML.substring(start,end) + "</span>" + innerHTML.substring(end);
+                inputText.innerHTML = innerHTML;
+            }
+        }
+    </script>
+</body>
+</html>

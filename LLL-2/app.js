@@ -13,6 +13,7 @@ import indexRoutes from './server/routes/index.js';
 import authRoutes from './server/routes/auth.js';
 
 import { appName, port, redirectUri } from './config.js';
+import ejs from 'ejs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -26,7 +27,10 @@ const redirectHost = new URL(redirectUri).host;
 const staticDir = `${__dirname}/dist`;
 const viewDir = `${__dirname}/server/views`;
 
-app.set('view engine', 'pug');
+// app.set('view engine', 'pug');
+// app.use(express.static(__dirname + '/public'));
+app.engine('html', ejs.renderFile);
+app.set('view engine', 'html');
 app.set('views', viewDir);
 app.locals.basedir = staticDir;
 
